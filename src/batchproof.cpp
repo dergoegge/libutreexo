@@ -108,4 +108,6 @@ void BatchProof::Print()
 
 const std::vector<uint64_t>& BatchProof::GetTargets() const { return targets; }
 
+const std::vector<std::array<uint8_t, 32>>& BatchProof::GetHashes() const { return proof; }
+
 }; // namespace utreexo

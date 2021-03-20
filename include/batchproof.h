@@ -23,6 +23,7 @@ public:
     BatchProof() {}
 
     const std::vector<uint64_t>& GetTargets() const;
+    const std::vector<std::array<uint8_t, 32>>& GetHashes() const;
 
     void Serialize(std::vector<uint8_t>& bytes) const;
     bool Unserialize(const std::vector<uint8_t>& bytes);

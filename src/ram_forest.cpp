@@ -257,6 +257,19 @@ bool RamForest::Prove(BatchProof& proof, const std::vector<Hash>& targetHashes) 
     return true;
 }
 
+bool RamForest::Verify(const BatchProof& proof, const std::vector<Hash>& target_hashes)
+{
+    // TODO: verify the actual proof. a bitcoin bridge node would like to validate proofs to ensure
+    // that he does not give invalid proofs to anyone.
+    // For now just check that the target hashes exist.
+    for (const Hash& hash : target_hashes) {
+        auto it = m_posmap.find(hash);
+        if (it == m_posmap.end()) return false;
+    }
+
+    return true;
+}
+
 void RamForest::Add(const std::vector<Leaf>& leaves)
 {
     // Preallocate data with the required size.

@@ -25,11 +25,11 @@ public:
     virtual bool Prove(BatchProof& proof, const std::vector<Hash>& target_hashes) const = 0;
 
     /**
-     * TODO: Verify a proof.
-     * The internal state of the accumulator might be mutated but the roots will not.
+     * Verify a proof.
      * Return whether or not the proof proved the targetHashes.
+     * The internal state of the accumulator might be mutated but the roots will not.
      */
-    /*bool Verify(const BatchProof& proof, const std::vector<Hash>& targetHashes);*/
+    virtual bool Verify(const BatchProof& proof, const std::vector<Hash>& target_hashes) = 0;
 
     /** Modify the accumulator by adding leaves and removing targets. */
     bool Modify(const std::vector<Leaf>& new_leaves, const std::vector<uint64_t>& targets);

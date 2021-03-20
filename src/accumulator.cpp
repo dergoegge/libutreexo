@@ -38,6 +38,21 @@ void Accumulator::Roots(std::vector<Hash>& roots) const
     }
 }
 
+// https://github.com/bitcoin/bitcoin/blob/7f653c3b22f0a5267822eec017aea6a16752c597/src/util/strencodings.cpp#L580
+template <class T>
+std::string HexStr(const T s)
+{
+    std::string rv;
+    static constexpr char hexmap[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                                        '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    rv.reserve(s.size() * 2);
+    for (uint8_t v : s) {
+        rv.push_back(hexmap[v >> 4]);
+        rv.push_back(hexmap[v & 15]);
+    }
+    return rv;
+}
+
 void Accumulator::ParentHash(Hash& parent, const Hash& left, const Hash& right)
 {
     //CHECK_SAFE(!left.IsNull());
@@ -53,21 +68,8 @@ void Accumulator::ParentHash(Hash& parent, const Hash& left, const Hash& right)
 
     // finalize the hash and write it into parentHash
     hasher.Finalize256(parent.data());
-}
 
-// https://github.com/bitcoin/bitcoin/blob/7f653c3b22f0a5267822eec017aea6a16752c597/src/util/strencodings.cpp#L580
-template <class T>
-std::string HexStr(const T s)
-{
-    std::string rv;
-    static constexpr char hexmap[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
-                                        '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
-    rv.reserve(s.size() * 2);
-    for (uint8_t v : s) {
-        rv.push_back(hexmap[v >> 4]);
-        rv.push_back(hexmap[v & 15]);
-    }
-    return rv;
+    // std::cout << "hash: " << HexStr(left).substr(0, 8) << " + " << HexStr(right).substr(0, 8) << " = " << HexStr(parent).substr(0, 8) << std::endl;
 }
 
 void Accumulator::PrintRoots() const

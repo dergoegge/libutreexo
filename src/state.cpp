@@ -160,7 +160,7 @@ ForestState::ProofPositions(const std::vector<uint64_t>& targets) const
     std::vector<uint64_t> savior;
     std::vector<uint64_t> nextTargets;
 
-    for (uint8_t row = 0; row < rows; ++row) {
+    for (uint8_t row = 0; row <= rows; ++row) {
         computed.insert(computed.end(), start, end);
 
         if (this->HasRoot(row) && start < end &&
@@ -294,6 +294,16 @@ std::vector<uint64_t> ForestState::RootPositions(uint64_t num_leaves) const
     }
     return roots;
 }
+
+uint8_t ForestState::RootIndex(uint64_t pos) const
+{
+    // TODO: think of bit shifty way to do this.
+    uint8_t root_index, tmp;
+    uint64_t tmp1;
+    std::tie(root_index, tmp, tmp1) = Path(pos);
+    return root_index;
+}
+
 
 // rows
 
